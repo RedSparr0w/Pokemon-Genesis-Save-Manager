@@ -84,18 +84,17 @@ namespace Pokemon_Genesis_Save_Manager
             loadSaves();
         }
 
-        private void saveListView_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
-
         public static PokemonGenesisSaveManagerSettings ReadXML(string filePath)
         {
-            XmlSerializer reader = new XmlSerializer(typeof(PokemonGenesisSaveManagerSettings));
-            StreamReader file = new StreamReader(filePath);
-            PokemonGenesisSaveManagerSettings overview = (PokemonGenesisSaveManagerSettings)reader.Deserialize(file);
-            file.Close();
-
-            return overview;
+            if (File.Exists(filePath))
+            {
+                XmlSerializer reader = new XmlSerializer(typeof(PokemonGenesisSaveManagerSettings));
+                StreamReader file = new StreamReader(filePath);
+                PokemonGenesisSaveManagerSettings overview = (PokemonGenesisSaveManagerSettings)reader.Deserialize(file);
+                file.Close();
+                return overview;
+            }
+            return new PokemonGenesisSaveManagerSettings();
         }
 
         public void SaveXML(PokemonGenesisSaveManagerSettings saveInfo, string filePath)
@@ -191,5 +190,5 @@ public static class Prompt
 
 public class PokemonGenesisSaveManagerSettings
 {
-    public String name;
+    public String name = "";
 }

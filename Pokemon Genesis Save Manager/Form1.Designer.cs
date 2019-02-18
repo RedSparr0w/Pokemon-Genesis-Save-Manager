@@ -90,7 +90,6 @@
             this.saveListView.TabIndex = 5;
             this.saveListView.UseCompatibleStateImageBehavior = false;
             this.saveListView.View = System.Windows.Forms.View.Details;
-            this.saveListView.SelectedIndexChanged += new System.EventHandler(this.saveListView_SelectedIndexChanged);
             // 
             // SaveName
             // 
