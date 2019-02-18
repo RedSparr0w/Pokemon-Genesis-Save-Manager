@@ -40,9 +40,9 @@
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuSaves = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemRename = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemLoad = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.contextMenuSaves.SuspendLayout();
             this.SuspendLayout();
@@ -53,7 +53,7 @@
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(290, 30);
             this.buttonSave.TabIndex = 1;
-            this.buttonSave.Text = "Save";
+            this.buttonSave.Text = "Backup Save";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
@@ -63,7 +63,7 @@
             this.buttonNew.Name = "buttonNew";
             this.buttonNew.Size = new System.Drawing.Size(290, 30);
             this.buttonNew.TabIndex = 0;
-            this.buttonNew.Text = "New";
+            this.buttonNew.Text = "New Save";
             this.buttonNew.UseVisualStyleBackColor = true;
             this.buttonNew.Click += new System.EventHandler(this.buttonNew_Click);
             // 
@@ -130,32 +130,32 @@
             // contextMenuSaves
             // 
             this.contextMenuSaves.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.renameToolStripMenuItem,
-            this.toolStripMenuItem1,
-            this.deleteToolStripMenuItem});
+            this.toolStripMenuItemRename,
+            this.toolStripMenuItemLoad,
+            this.toolStripMenuItemDelete});
             this.contextMenuSaves.Name = "contextMenuSaves";
-            this.contextMenuSaves.Size = new System.Drawing.Size(118, 70);
+            this.contextMenuSaves.Size = new System.Drawing.Size(181, 92);
             // 
-            // renameToolStripMenuItem
+            // toolStripMenuItemRename
             // 
-            this.renameToolStripMenuItem.Name = "renameToolStripMenuItem";
-            this.renameToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
-            this.renameToolStripMenuItem.Text = "Rename";
-            this.renameToolStripMenuItem.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
+            this.toolStripMenuItemRename.Name = "toolStripMenuItemRename";
+            this.toolStripMenuItemRename.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemRename.Text = "Rename";
+            this.toolStripMenuItemRename.Click += new System.EventHandler(this.toolStripMenuItemRename_Click);
             // 
-            // toolStripMenuItem1
+            // toolStripMenuItemLoad
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(117, 22);
-            this.toolStripMenuItem1.Text = "Load";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            this.toolStripMenuItemLoad.Name = "toolStripMenuItemLoad";
+            this.toolStripMenuItemLoad.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemLoad.Text = "Load";
+            this.toolStripMenuItemLoad.Click += new System.EventHandler(this.toolStripMenuItemLoad_Click);
             // 
-            // deleteToolStripMenuItem
+            // toolStripMenuItemDelete
             // 
-            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
-            this.deleteToolStripMenuItem.Text = "Delete";
-            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            this.toolStripMenuItemDelete.Name = "toolStripMenuItemDelete";
+            this.toolStripMenuItemDelete.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemDelete.Text = "Delete";
+            this.toolStripMenuItemDelete.Click += new System.EventHandler(this.toolStripMenuItemDelete_Click);
             // 
             // richTextBox1
             // 
@@ -202,9 +202,9 @@
 		private System.Windows.Forms.ColumnHeader columnHeader6;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.ContextMenuStrip contextMenuSaves;
-        private System.Windows.Forms.ToolStripMenuItem renameToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemRename;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDelete;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemLoad;
     }
 }
 

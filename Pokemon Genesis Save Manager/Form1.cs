@@ -41,15 +41,15 @@ namespace Pokemon_Genesis_Save_Manager
 			string[] folders = Directory.GetDirectories(backupSaveGameFolder);
 			foreach (string folder in folders)
 			{
-
 				FileInfo f = new FileInfo(folder);
 				ListViewItem item = new ListViewItem(f.Name);
 				item.Tag = f.Name;
 
 				saveListView.Items.Add(item);
-
-			}
-		}
+            }
+            PokemonGenesisSaveManagerSettings saveInfo = ReadXML(currentSaveGameFolder + "/PGSM.xml");
+            updatebuttonSaveLabel(saveInfo.name);
+        }
 
 		public void saveGame(string saveFolderName)
 		{
@@ -106,7 +106,7 @@ namespace Pokemon_Genesis_Save_Manager
             txtWriter.Close();
         }
 
-        private void renameToolStripMenuItem_Click(object sender, EventArgs e)
+        private void toolStripMenuItemRename_Click(object sender, EventArgs e)
         {
             string currentName = saveListView.SelectedItems[0].Tag.ToString();
             string input = Prompt.ShowDialog("Enter a new name for your save", "Rename Save \"" + currentName + "\"");
@@ -119,14 +119,14 @@ namespace Pokemon_Genesis_Save_Manager
             loadSaves();
         }
 
-        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        private void toolStripMenuItemDelete_Click(object sender, EventArgs e)
         {
             string currentName = saveListView.SelectedItems[0].Tag.ToString();
             Directory.Delete(Path.Combine(backupSaveGameFolder, currentName), true);
             loadSaves();
         }
 
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        private void toolStripMenuItemLoad_Click(object sender, EventArgs e)
         {
             string currentName = saveListView.SelectedItems[0].Tag.ToString();
             string saveGameFolder = Path.Combine(backupSaveGameFolder, currentName);
@@ -139,6 +139,7 @@ namespace Pokemon_Genesis_Save_Manager
                 string dest = Path.Combine(currentSaveGameFolder, name);
                 File.Copy(file, dest, true);
             }
+            loadSaves();
         }
 
         private void buttonNew_Click(object sender, EventArgs e)
@@ -153,6 +154,11 @@ namespace Pokemon_Genesis_Save_Manager
                 saveGame(saveInfo.name);
             }
             loadSaves();
+        }
+
+        private void updatebuttonSaveLabel(string label)
+        {
+            buttonSave.Text = "Backup Save" + (label.Length > 0 ? " [" + label + "]" : "");
         }
     }
 
