@@ -71,9 +71,9 @@ namespace Pokemon_Genesis_Save_Manager
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            string input = Prompt.ShowDialog("Enter a name for your save", "Save Current Game").Trim();
             if (input.Length >= 1)
                 saveGame(input);
+                string input = Prompt.ShowDialog("Enter a name for your save", "Save Current Game");
             loadSaves();
         }
     }
@@ -101,6 +101,6 @@ public static class Prompt
         prompt.Controls.Add(textLabel);
         prompt.AcceptButton = confirmation;
 
-        return prompt.ShowDialog() == DialogResult.OK ? textBox.Text : "";
+        return prompt.ShowDialog() == DialogResult.OK ? textBox.Text.Trim() : "";
     }
 }
