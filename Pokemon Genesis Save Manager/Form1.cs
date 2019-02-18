@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace Pokemon_Genesis_Save_Manager
 {
@@ -30,17 +32,10 @@ namespace Pokemon_Genesis_Save_Manager
 			Directory.CreateDirectory(backupSaveGameFolder);
 			// Pokemon Genesis (Generations [Reboot]) save file location
 			Directory.CreateDirectory(currentSaveGameFolder);
-		}
+        }
 
 		private void loadSaves()
 		{
-			// Check if the current save has a name or not, if not give it a name
-			FileStream fs = new FileStream(currentSaveGameFolder + "/PGSM.xml", FileMode.OpenOrCreate);
-			string dataasstring = "<?xml version=\"1.0\" encoding=\"utf-8\"?><Settings xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><name>New Save x</name></Settings>"; //your data
-			byte[] info = new UTF8Encoding(true).GetBytes(dataasstring);
-			fs.Write(info, 0, info.Length);
-			fs.Close();
-
 			saveListView.Items.Clear();
 
 			string[] folders = Directory.GetDirectories(backupSaveGameFolder);
@@ -71,9 +66,92 @@ namespace Pokemon_Genesis_Save_Manager
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            if (input.Length >= 1)
-                saveGame(input);
+            if (!File.Exists(currentSaveGameFolder + "/PGSM.xml"))
+            {
                 string input = Prompt.ShowDialog("Enter a name for your save", "Save Current Game");
+                if (input.Length >= 1)
+                {
+                    PokemonGenesisSaveManagerSettings saveInfo = new PokemonGenesisSaveManagerSettings { name = input };
+                    SaveXML(saveInfo, currentSaveGameFolder + "/PGSM.xml");
+                    saveGame(saveInfo.name);
+                }
+            }
+            else
+            {
+                PokemonGenesisSaveManagerSettings saveInfo = ReadXML(currentSaveGameFolder + "/PGSM.xml");
+                saveGame(saveInfo.name);
+            }
+            loadSaves();
+        }
+
+        private void saveListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
+
+        public static PokemonGenesisSaveManagerSettings ReadXML(string filePath)
+        {
+            XmlSerializer reader = new XmlSerializer(typeof(PokemonGenesisSaveManagerSettings));
+            StreamReader file = new StreamReader(filePath);
+            PokemonGenesisSaveManagerSettings overview = (PokemonGenesisSaveManagerSettings)reader.Deserialize(file);
+            file.Close();
+
+            return overview;
+        }
+
+        public void SaveXML(PokemonGenesisSaveManagerSettings saveInfo, string filePath)
+        {
+            XmlSerializer xs = new XmlSerializer(typeof(PokemonGenesisSaveManagerSettings));
+            TextWriter txtWriter = new StreamWriter(filePath);
+            xs.Serialize(txtWriter, saveInfo);
+            txtWriter.Close();
+        }
+
+        private void renameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string currentName = saveListView.SelectedItems[0].Tag.ToString();
+            string input = Prompt.ShowDialog("Enter a new name for your save", "Rename Save \"" + currentName + "\"");
+            if (input.Length == 0 || input == currentName)
+                return;
+
+            PokemonGenesisSaveManagerSettings saveInfo = new PokemonGenesisSaveManagerSettings { name = input };
+            Directory.Move(Path.Combine(backupSaveGameFolder, currentName), Path.Combine(backupSaveGameFolder, saveInfo.name));
+            SaveXML(saveInfo, Path.Combine(backupSaveGameFolder, saveInfo.name) + "/PGSM.xml");
+            loadSaves();
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string currentName = saveListView.SelectedItems[0].Tag.ToString();
+            Directory.Delete(Path.Combine(backupSaveGameFolder, currentName), true);
+            loadSaves();
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            string currentName = saveListView.SelectedItems[0].Tag.ToString();
+            string saveGameFolder = Path.Combine(backupSaveGameFolder, currentName);
+            Directory.Delete(currentSaveGameFolder, true);
+            Directory.CreateDirectory(currentSaveGameFolder);
+            string[] files = Directory.GetFiles(saveGameFolder);
+            foreach (string file in files)
+            {
+                string name = Path.GetFileName(file);
+                string dest = Path.Combine(currentSaveGameFolder, name);
+                File.Copy(file, dest, true);
+            }
+        }
+
+        private void buttonNew_Click(object sender, EventArgs e)
+        {
+            string input = Prompt.ShowDialog("Enter a name for your save", "Start New Save");
+            if (input.Length >= 1)
+            {
+                Directory.Delete(currentSaveGameFolder, true);
+                Directory.CreateDirectory(currentSaveGameFolder);
+                PokemonGenesisSaveManagerSettings saveInfo = new PokemonGenesisSaveManagerSettings { name = input };
+                SaveXML(saveInfo, currentSaveGameFolder + "/PGSM.xml");
+                saveGame(saveInfo.name);
+            }
             loadSaves();
         }
     }
@@ -103,4 +181,9 @@ public static class Prompt
 
         return prompt.ShowDialog() == DialogResult.OK ? textBox.Text.Trim() : "";
     }
+}
+
+public class PokemonGenesisSaveManagerSettings
+{
+    public String name;
 }
