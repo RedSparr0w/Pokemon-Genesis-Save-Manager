@@ -28,8 +28,15 @@ namespace Pokemon_Genesis_Save_Manager
 
         private void checkFirstTimeSetup()
 		{
-			// Our data folder
-			Directory.CreateDirectory(backupSaveGameFolder);
+            // Check that the program is in the correct location
+            if (!File.Exists("./Pokemon Generations Reboot.exe"))
+            {
+                MessageBox.Show("Please place this file in the correct location.\n\nThis file should be in the same directory as \"Pokemon Generations Reboot.exe\"", "Incorrect install location");
+                Environment.Exit(0);
+                return;
+            }
+            // Our data folder
+            Directory.CreateDirectory(backupSaveGameFolder);
 			// Pokemon Genesis (Generations [Reboot]) save file location
 			Directory.CreateDirectory(currentSaveGameFolder);
         }
