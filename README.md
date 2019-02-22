@@ -1,4 +1,5 @@
 # Pokemon Genesis Save Manager
+![](https://img.shields.io/github/release/RedSparr0w/Pokemon-Genesis-Save-Manager.svg?label=latest%20release) ![](https://img.shields.io/github/release-date/RedSparr0w/Pokemon-Genesis-Save-Manager.svg) ![](https://img.shields.io/github/downloads/RedSparr0w/Pokemon-Genesis-Save-Manager/total.svg)
 
 Backup and restore your save files for [Pokemon Genesis](https://www.indiedb.com/games/pokmon-generations-reboot-download-avaliable)
 
